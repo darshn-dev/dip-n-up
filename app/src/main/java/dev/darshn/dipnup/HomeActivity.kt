@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import dev.darshn.dipnup.presentation.companylist.CompanyItem
 import dev.darshn.dipnup.ui.theme.DipNUpTheme
 
 class HomeActivity : ComponentActivity() {
@@ -18,26 +19,8 @@ class HomeActivity : ComponentActivity() {
         setContent {
             DipNUpTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+               // CompanyItem()
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    DipNUpTheme {
-        Greeting("Android")
     }
 }

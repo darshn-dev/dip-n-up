@@ -1,6 +1,8 @@
 package dev.darshn.dipnup.data.repository
 
+import dev.darshn.dipnup.data.csv.CsvParser
 import dev.darshn.dipnup.data.local.StockDatabase
+import dev.darshn.dipnup.data.mapper.toCompanyListEntity
 import dev.darshn.dipnup.data.mapper.toCompanyListModel
 import dev.darshn.dipnup.data.remote.StockApi
 import dev.darshn.dipnup.domain.model.CompanyListing
@@ -16,13 +18,11 @@ import javax.inject.Singleton
 @Singleton
 class StockRepositoryImpl @Inject constructor(
     private val api: StockApi,
-    stockDatabase: StockDatabase
+    stockDatabase: StockDatabase,
+    private val listParser: CsvParser<CompanyListing>
 ) :
     StockRepository {
-
-
     val dao = stockDatabase.companyListDao
-
     override suspend fun getCompanyList(
         fetchFromRemote: Boolean,
         query: String
@@ -42,14 +42,25 @@ class StockRepositoryImpl @Inject constructor(
 
             var remoteList = try {
                 val response = api.getCompanyList()
-                response.byteStream()
+                listParser.parse(response.byteStream())
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error("Something went wrong"))
+                null
             } catch (e: HttpException) {
                 e.printStackTrace()
                 emit(Resource.Error("Something went wrong"))
+                null
             }
+
+            remoteList?.let { listing ->
+                dao.clearCompanyListings()
+                dao.insertCompanyListEntity(listing.map { it -> it.toCompanyListEntity() })
+                emit(Resource.Success(dao.searchCompanyListing("").map { it.toCompanyListModel() }))
+                emit(Resource.Loading(false))
+            }
+
+
         }
     }
 
