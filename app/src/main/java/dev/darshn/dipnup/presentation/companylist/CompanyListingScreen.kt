@@ -16,6 +16,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+
 @Composable
 @Destination(start = true)
 fun CompanyListScreen(

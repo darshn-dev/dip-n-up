@@ -10,16 +10,23 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavGraph
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.spec.NavGraphSpec
+import dagger.hilt.android.AndroidEntryPoint
 import dev.darshn.dipnup.presentation.companylist.CompanyItem
 import dev.darshn.dipnup.ui.theme.DipNUpTheme
 
+@AndroidEntryPoint
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             DipNUpTheme {
-                // A surface container using the 'background' color from the theme
-               // CompanyItem()
+             Surface() {
+                DestinationsNavHost(navGraph = NavGraph)
+              }
             }
         }
     }
