@@ -2,6 +2,8 @@ package dev.darshn.dipnup.presentation.companylist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
@@ -13,21 +15,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 @Composable
-@Destination(start = true)
 fun CompanyListScreen(
-    navigator: DestinationsNavigator,
     viewModel: CompanyListViewModel = hiltViewModel()
 ) {
     var swipeRefresh = rememberSwipeRefreshState(isRefreshing = viewModel.state.isRefreshing)
 
     val state = viewModel.state
 
-    Column() {
+    Column(modifier = Modifier.fillMaxSize()) {
         OutlinedTextField(
             value = state.searchQuery,
             onValueChange = {
@@ -42,10 +40,13 @@ fun CompanyListScreen(
 
         SwipeRefresh(
             state = swipeRefresh,
+            modifier = Modifier.fillMaxSize(),
             onRefresh = { viewModel.onEvent(CompanyListingEvents.Refresh) }) {
-
-            LazyColumn(modifier = Modifier.padding(8.dp)){
-                items(state.companyList.size){ i ->
+            Text(text = "Text is added")
+            LazyColumn(modifier = Modifier
+                .padding(8.dp)
+                .fillMaxSize()) {
+                items(state.companyList.size) { i ->
 
                     val company = state.companyList[i]
                     CompanyItem(company = company, modifier = Modifier.clickable {
@@ -54,7 +55,7 @@ fun CompanyListScreen(
 
 
 
-                    if(i<state.companyList.size)
+                    if (i < state.companyList.size)
                         Divider(modifier = Modifier.padding(8.dp))
                 }
             }

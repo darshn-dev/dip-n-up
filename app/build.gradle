@@ -77,9 +77,13 @@ dependencies {
     implementation "com.google.accompanist:accompanist-swiperefresh:0.24.2-alpha"
 
     // Compose Nav Destinations
-    implementation 'io.github.raamcosta.compose-destinations:core:1.1.2-beta'
+   // implementation 'io.github.raamcosta.compose-destinations:core:1.1.2-beta'
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-    ksp 'io.github.raamcosta.compose-destinations:ksp:1.1.2-beta'
+  //  ksp 'io.github.raamcosta.compose-destinations:ksp:1.1.2-beta'
+
+    def nav_version = "2.5.3"
+
+    implementation "androidx.navigation:navigation-compose:$nav_version"
 
     // Coil
     implementation "io.coil-kt:coil-compose:1.4.0"

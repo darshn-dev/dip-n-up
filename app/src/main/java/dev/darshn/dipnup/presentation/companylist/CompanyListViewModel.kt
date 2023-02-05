@@ -19,6 +19,10 @@ class CompanyListViewModel @Inject constructor(private val repository: StockRepo
     var state by mutableStateOf(CompanyListState())
     var job: Job? = null
 
+    init {
+        getCompanyList()
+    }
+
     fun onEvent(events: CompanyListingEvents) {
         when (events) {
             is CompanyListingEvents.OnSearchQueryChange -> {
